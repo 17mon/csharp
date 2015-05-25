@@ -109,7 +109,10 @@ namespace IP
                             indexBuffer[loop * 4]);
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 

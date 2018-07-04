@@ -48,7 +48,7 @@ namespace IP
                 var start = index[ip_prefix_value];
                 var max_comp_len = offset - 262144 - 4;
                 long index_offset = -1;
-                var index_length = -1;
+                long index_length = -1;
                 byte b = 0;
                 for (start = start * 9 + 262144; start < max_comp_len; start += 9)
                 {
@@ -58,7 +58,7 @@ namespace IP
                     {
                         index_offset = BytesToLong(b, indexBuffer[start + 6], indexBuffer[start + 5],
                             indexBuffer[start + 4]);
-                        index_length = (0xFF & indexBuffer[start + 7] << 8) + indexBuffer[start + 8];
+                        index_length = BytesToLong(b, b, indexBuffer[start + 7], indexBuffer[start + 8]);
                         break;
                     }
                 }
@@ -100,7 +100,7 @@ namespace IP
 
                     var indexLength = BytesToLong(dataBuffer[0], dataBuffer[1], dataBuffer[2], dataBuffer[3]);
                     indexBuffer = new byte[indexLength];
-                    Array.Copy(dataBuffer, 4, indexBuffer, 0, indexLength);
+                    Array.Copy(dataBuffer, 4, indexBuffer, 0, dataBuffer.Length - 4);
                     offset = (int)indexLength;
 
                     for (var i = 0; i < 256; i++)
